@@ -553,8 +553,8 @@ namespace OutlookGoogleCalendarSync.OutlookOgcs {
                 if (!EmailAddress.IsValidEmail(retEmail) && !builtFakeEmail) {
                     retEmail = EmailAddress.BuildFakeEmailAddress(recipient.Name, out builtFakeEmail);
                     if (!EmailAddress.IsValidEmail(retEmail)) {
-                        MainForm.Instance.Logboxout("ERROR: Recipient \"" + recipient.Name + "\" with email address \"" + retEmail + "\" is invalid.", notifyBubble: true);
-                        MainForm.Instance.Logboxout("This must be manually resolved in order to sync this appointment.");
+                        MainForm.Instance.Console.Update("Recipient \"" + recipient.Name + "\" with email address \"" + retEmail + "\" is invalid.<br/>" +
+                            "This must be manually resolved in order to sync this appointment.", Console.Markup.error, notifyBubble: true);
                         throw new ApplicationException("Invalid recipient email for \"" + recipient.Name + "\"");
                     }
                 }
@@ -576,7 +576,19 @@ namespace OutlookGoogleCalendarSync.OutlookOgcs {
         }
 
         public object GetCategories() {
-            return oApp.Session.Categories;
+            if (Settings.Instance.OutlookService == OutlookOgcs.Calendar.Service.DefaultMailbox) 
+                return oApp.Session.Categories;
+
+            Store store = null;
+            try {
+                store = useOutlookCalendar.Store;
+                return store.GetType().GetProperty("Categories").GetValue(store, null);
+            } catch (System.Exception ex) {
+                OGCSexception.Analyse(ex, true);
+                return oApp.Session.Categories;
+            } finally {
+                store = (Store)OutlookOgcs.Calendar.ReleaseObject(store);
+            }
         }
 
         #region TimeZone Stuff

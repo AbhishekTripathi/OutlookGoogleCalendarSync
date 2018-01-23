@@ -78,6 +78,7 @@ namespace OutlookGoogleCalendarSync {
             SetEntriesAvailable = false;
             Obfuscation = new Obfuscate();
 
+            MuteClickSounds = false;
             ShowBubbleTooltipWhenSyncing = true;
             StartOnStartup = false;
             StartupDelay = 0;
@@ -92,6 +93,7 @@ namespace OutlookGoogleCalendarSync {
             Proxy = new SettingsProxy();
 
             alphaReleases = false;
+            SkipVersion = null;
             Subscribed = DateTime.Parse("01-Jan-2000");
             donor = false;
             hideSplashScreen = false;
@@ -184,7 +186,7 @@ namespace OutlookGoogleCalendarSync {
         [DataMember] public String GaccountEmail { get; set; }
         public String GaccountEmail_masked() {
             if (string.IsNullOrWhiteSpace(GaccountEmail)) return "<null>";
-            return EmailAddress.maskAddress(GaccountEmail);
+            return EmailAddress.MaskAddress(GaccountEmail);
         }
         [DataMember] public Boolean CloakEmail { get; set; }
         #endregion
@@ -228,7 +230,7 @@ namespace OutlookGoogleCalendarSync {
                 hideSplashScreen = value;
             }
         }
-        
+
         [DataMember] public bool ShowBubbleTooltipWhenSyncing { get; set; }
         [DataMember] public bool StartOnStartup { get; set; }
         [DataMember] public Int32 StartupDelay { get; set; }
@@ -291,6 +293,8 @@ namespace OutlookGoogleCalendarSync {
             }
         }
         [DataMember] public bool VerboseOutput { get; set; }
+        [DataMember] public bool MuteClickSounds { get; set; }
+        [DataMember] public String SkipVersion { get; set; }
 
         public static void Load(string XMLfile = null) {
             try {
@@ -409,12 +413,14 @@ namespace OutlookGoogleCalendarSync {
             log.Info("  CreateCSVFiles: " + CreateCSVFiles);
 
             log.Info("  VerboseOutput: " + VerboseOutput);
+            log.Info("  MuteClickSounds: " + MuteClickSounds);
             //To pick up from settings.xml file:
             //((log4net.Repository.Hierarchy.Hierarchy)log.Logger.Repository).Root.Level.Name);
             log.Info("  Logging Level: "+ LoggingLevel);
 
             log.Info("ABOUT:-");
             log.Info("  Alpha Releases: " + alphaReleases);
+            log.Info("  Skip Version: " + SkipVersion);
             log.Info("  Subscribed: " + Subscribed.ToString("dd-MMM-yyyy"));
             log.Info("  Timezone Database: " + TimezoneDB.Instance.Version);
             

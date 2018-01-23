@@ -1,6 +1,42 @@
 | Release Notes |
 |:---|
 
+# v2.6.6.0 - Alpha
+
+**Enhancements**
+- New upgrade alert window containing "What's New?" improvement details.  
+- Option to skip a release.  
+- Help/F1 to see online user guide.  
+- Don't block subsequent scheduled syncs if network drop out caused transient failure.  
+- Continue switch to MD5.  
+
+**Bugfix**
+- Updating weekday recurrence interval back into Outlook.  
+- Remember obfuscation sync direction.  
+- Sync freezes if OGCS starts in notification tray.  
+
+# v2.6.5.0 - Alpha
+
+**Enhancements**
+- Sync output now HTML, not plain text!
+- Change Sync button text when shift-clicking.
+
+**Bugfix**
+- Updating weekday recurrence interval back into Outlook.
+
+# v2.6.4.0 - Alpha
+
+**Enhancements**
+- Show categories from alternative mailboxes
+- More reliable setting of next sync + restarting push sync.
+- Improved upgrade experience + error handling
+- Remove user configuration files upon uninstall
+- Better calendar security
+
+**Bugfix**
+- Forgetting obfuscation rules
+- Filter on items with multiple categories may not work
+
 # v2.6.3.0 - Alpha
 
 **Enhancements**
